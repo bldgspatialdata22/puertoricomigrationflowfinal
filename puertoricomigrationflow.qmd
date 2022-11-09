@@ -4,8 +4,20 @@ title: "puertoricomigrationflow"
 
 ## Quarto
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+```{r}
+install.packages("usethis")
+```
 
 ```{r}
-1 + 1
+library(usethis)
 ```
+```{r}
+git_sitrep()
+```
+```{r}
+use_git(message = "Create new project")
+```
+```{r}
+use_github(organisation = "bldgspatialdata22")
+```
+
