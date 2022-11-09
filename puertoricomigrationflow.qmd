@@ -58,8 +58,8 @@ use_git(message = "Create new project")
 ```
 
 ```{r}
-usethis::use_git_remote("origin", url = NULL, overwrite = TRUE)
 use_github(organisation = "bldgspatialdata22")
+usethis::use_git_remote("origin", url = NULL, overwrite = TRUE
 ```
 
 ##Set-up packages
