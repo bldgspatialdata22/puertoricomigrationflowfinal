@@ -6,10 +6,6 @@ author: "Wendy Prudencio"
 ## Quarto
 
 ```{r}
-install.packages("usethis")
-```
-
-```{r}
 library(usethis)
 ```
 
@@ -18,7 +14,7 @@ git_sitrep()
 ```
 
 ```{r}
-use_git(message = "Create new project")
+usethis::use_git_remote("origin", url = NULL, overwrite = TRUE)
 ```
 
 ```{r}
@@ -36,7 +32,7 @@ options(tigris_use_cache = TRUE)
 
 options(tigris_class = "sf")
 options(tigris_use_cache = TRUE)
-census_api_key("3efcfb0ddc4c895edaac8221c73a40ca59dd392c") 
+census_api_key("CENSUS_API_KEY") 
 "install = TRUE"
 ```
 
@@ -347,7 +343,7 @@ coamo15_flows <- get_flows(
   year = 2015
   )
 
-coamov15_flows %>% 
+coamo15_flows %>% 
   filter(!is.na(GEOID2)) %>% 
   head()
 ```
@@ -477,7 +473,7 @@ guaynabo15_flows <- get_flows(
   year = 2015
   )
 
-guynabo15_flows %>% 
+guaynabo15_flows %>% 
   filter(!is.na(GEOID2)) %>% 
   head()
 ```
@@ -814,7 +810,7 @@ quebra15_flows <- get_flows(
   year = 2015
   )
 
-quebradillas15_flows %>% 
+quebra15_flows %>% 
   filter(!is.na(GEOID2)) %>% 
   head()
 ```
