@@ -59,7 +59,6 @@ use_git(message = "Create new project")
 
 ```{r}
 use_github(organisation = "bldgspatialdata22")
-usethis::use_git_remote("origin", url = NULL, overwrite = TRUE
 ```
 
 ##Set-up packages
@@ -73,7 +72,7 @@ options(tigris_use_cache = TRUE)
 
 options(tigris_class = "sf")
 options(tigris_use_cache = TRUE)
-census_api_key("CENSUS_API_KEY") 
+census_api_key("Census_API_Key") 
 "install = TRUE"
 ```
 
