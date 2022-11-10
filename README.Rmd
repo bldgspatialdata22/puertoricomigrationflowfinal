@@ -14,7 +14,6 @@ knitr::opts_chunk$set(
 # puertoricomigrationflow
 
 <!-- badges: start -->
-
 <!-- badges: end -->
 
 The goal of puertoricomigrationflow is to ...

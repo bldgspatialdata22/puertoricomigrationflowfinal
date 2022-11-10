@@ -50,16 +50,15 @@ library(usethis)
 ```
 
 ```{r}
+usethis::use_git_remote("origin", url = NULL, overwrite = TRUE)
 git_sitrep()
 ```
 
 ```{r}
-usethis::use_git_remote("origin", url = NULL, overwrite = TRUE)
 use_git(message = "Create new project")
 ```
 
 ```{r}
-usethis::use_git_remote("origin", url = NULL, overwrite = TRUE)
 use_github(organisation = "bldgspatialdata22")
 ```
 
@@ -81,7 +80,7 @@ options(tigris_use_cache = TRUE)
 
 options(tigris_class = "sf")
 options(tigris_use_cache = TRUE)
-census_api_key("Census_API_Key") 
+census_api_key("3efcfb0ddc4c895edaac8221c73a40ca59dd392c") 
 "install = TRUE"
 ```
 
@@ -1122,4 +1121,5 @@ here::here(
 ```
 
 ```{r}
+nfip_data <- ("data/FEMANFIPClaims_PR.xlsx")
 ```
