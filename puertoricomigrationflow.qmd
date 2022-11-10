@@ -61,6 +61,13 @@ use_git(message = "Create new project")
 use_github(organisation = "bldgspatialdata22")
 ```
 
+
+```{r}
+use_readme_rmd()
+
+use_cc0_license()
+```
+
 ##Set-up packages
 
 ```{r}
@@ -1105,19 +1112,12 @@ yauco15_flows %>%
 ##Is there a way to run all these codes for the years remainding?\*
 
 ##Import data from NFIP
-
-```{r}
-install.packages("readxl")
-```
-
 ```{r}
 library("readxl")
-
-nfip_data <- read_excel("/Users/wendyprudencio/Downloads/FEMANFIPClaims_PR.xlsx")
+here::here(
+  "data/FEMANFIPClaims_PR.xlsx"
+  )
 ```
 
 ```{r}
-use_readme_rmd()
-
-use_cc0_license("Wendy Prudencio")
 ```
