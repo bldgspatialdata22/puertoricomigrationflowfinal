@@ -83,7 +83,7 @@ pr_counties_flows_2015_2019 <-
    pr_counties_flows_2019
  )
 
-readr::write_rds(pr_counties_flows_2015_2019, "data/pr_counties_flows_2015_2019.rds")
+readr::write_rds(pr_counties_flows_2015_2019, "/Users/wendyprudencio/puertoricomigrationflow/pr_counties_flows_2015_2019.rds")
 
 
-
+      

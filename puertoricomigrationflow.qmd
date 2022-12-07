@@ -19,10 +19,7 @@ I will probably have to combine some of the data because the data is in differen
 
 ## Questions
 
-The questions I intend to answer are:
-1.  Which year had the most migration from Puerto Rico to the continental U.S.?
-2.  What continental U.S. state received the most influx of Puerto Rican individuals?
-3.  Can I use flooding claims information to inform migration flow?
+The questions I intend to answer are: 1. Which year had the most migration from Puerto Rico to the continental U.S.? 2. What continental U.S. state received the most influx of Puerto Rican individuals? 3. Can I use flooding claims information to inform migration flow?
 
 ## Description of data
 
@@ -97,7 +94,8 @@ census_api_key("3efcfb0ddc4c895edaac8221c73a40ca59dd392c")
 "install = TRUE"
 ```
 
-## PEP? NOT ACS? estimates for sex, age, and latino/a/x orgin in Puerto Rico
+## Census population estimates for sex, age, and latino/a/x orgin in Puerto Rico
+
 ```{r}
 pr_age_hisp <-
   get_estimates(
@@ -113,74 +111,126 @@ pr_age_hisp <-
 pr_age_hisp
 ```
 
-## Migration per county/ municpality for 2015-2020
-```{r counties}
-pr_counties <- tigris::counties(state = "PR", cb = TRUE)
+## Migration flow per county/ municpality for 2015-2019
+
+````{r}
+library(readr)
+
+read_rds("pr_counties_flows_2015_2019.rds", refhook = NULL)
 ```
 
-```{r year_2015}
-pr_counties_flows_2015 <-
-  purrr::map_dfr(
-    pr_counties$COUNTYFP,
-    ~ get_flows(
-      geography = "county",
-      state = "PR",
-      county = .x,
-      year = 2015
-    )
+```{r}
+pr_movedout_summary <-
+pr_counties_flows_2015_2019 %>%
+  filter(!(FULL2_NAME %in% c("Africa", "Asia", "Central America", 
+  "Caribbean", "Europe", "South America", "Puerto Rico" )), variable == "MOVEDOUT") %>% 
+  group_by(year) %>%
+  summarise(
+    total_movedout = sum(estimate, na.rm = TRUE)
   )
+pr_movedout_summary
+
+pr_movedout_summary %>% 
+  ggplot() +
+  geom_col(aes(as.factor(year), total_movedout)) +
+  guides(fill = "none") +
+  xlab("Year") +
+  ylab("Population Totals") +
+  ggtitle("Total Migration Flow in Puerto Rico by Year") +
+  ggeasy::easy_center_title()
+
+ggplot(pr_movedout_summary, aes(x=year, y=total_movedout)) + geom_point() +
+  xlab("Year") +
+  ylab("Population Totals") +
+  ggtitle("Total Migration Flow in Puerto Rico by Year in Points") +
+  ggeasy::easy_center_title()
+
 ```
 
-```{r year_2016}
-pr_counties_flows_2016 <-
-  purrr::map_dfr(
-    pr_counties$COUNTYFP,
-    ~ get_flows(
-      geography = "county",
-      state = "PR",
-      county = .x,
-      year = 2016
-    )
-  )
+```{r}
+pr_movedout_state <-
+  pr_counties_flows_2015_2019 %>%
+  filter(!(FULL2_NAME %in% c("Africa", "Asia", "Central America", 
+  "Caribbean", "Europe", "South America", "Puerto Rico",variable == "MOVEOUT"))) %>%
+  group_by(FULL2_NAME) %>%
+  summarise(
+    total_movedout = sum(estimate, na.rm = TRUE))
+
+pr_movedout_state
+
+max(pr_movedout_state$FULL2_NAME)
+
+pr_movedout_state %>% 
+  ggplot() +
+  geom_col(aes(as.factor(FULL2_NAME), total_movedout)) +
+  theme_grey() +
+  guides(fill = "none") +
+  xlab("Counties") +
+  ylab("Population Totals") +
+  ggtitle("Total Migration Flow from Puerto Rico to Other Places") +
+  ggeasy::easy_center_title()
+  
 ```
 
-```{r year_2017}
-pr_counties_flows_2017 <-
-  purrr::map_dfr(
-    pr_counties$COUNTYFP,
-    ~ get_flows(
-      geography = "county",
-      state = "PR",
-      county = .x,
-      year = 2017
-    )
-  )
+```{r}
+library(mapdeck)
+
+sanjuan_inflow <-
+  get_flows(
+  geography = "county",
+  state = "PR",
+  county = "San Juan Municipio",
+  geometry = TRUE
+) %>%
+  filter(variable == "MOVEDIN") %>%
+  na.omit() %>%
+  arrange(desc(estimate))
+
+mapboxapi::mb_access_token("pk.eyJ1Ijoid3BydWRlbmNpbyIsImEiOiJjbGJibWoxYmcxZnV3M29tcmVnbzMzbzMxIn0.4O0UofCM_KbVsb_EZM-i6g", overwrite=TRUE)
+
+sanjuan_inflow %>%
+  slice_max(estimate, n = 30) %>%
+  mutate(weight = estimate / 500) %>%
+  mapdeck(token = mapboxapi::get_mb_access_token("pk.eyJ1Ijoid3BydWRlbmNpbyIsImEiOiJjbGJibWoxYmcxZnV3M29tcmVnbzMzbzMxIn0.4O0UofCM_KbVsb_EZM-i6g")) %>%
+  add_arc(origin = "centroid2",
+          destination = "centroid1",
+          stroke_width = "weight",
+          update_view = FALSE) 
+
+mayaguez_inflow <-
+  get_flows(
+  geography = "county",
+  state = "PR",
+  county = "Mayaguez Municipio",
+  geometry = TRUE
+) %>%
+  filter(variable == "MOVEDIN") %>%
+  na.omit() %>%
+  arrange(desc(estimate))
+
+
+mayaguez_inflow %>%
+  slice_max(estimate, n = 30) %>%
+  mutate(weight = estimate / 500) %>%
+  mapdeck(token = mapboxapi::get_mb_access_token("pk.eyJ1Ijoid3BydWRlbmNpbyIsImEiOiJjbGJibWoxYmcxZnV3M29tcmVnbzMzbzMxIn0.4O0UofCM_KbVsb_EZM-i6g")) %>%
+  add_arc(origin = "centroid2",
+          destination = "centroid1",
+          stroke_width = "weight",
+          update_view = FALSE) 
+
+sanjuan_mayaguez_inflow <-
+ bind_rows(
+   sanjuan_inflow,
+   mayaguez_inflow,
+ )
+
+sanjuan_mayaguez_inflow %>%
+  slice_max(estimate, n = 30) %>%
+  mutate(weight = estimate / 500) %>%
+  mapdeck(token = mapboxapi::get_mb_access_token("pk.eyJ1Ijoid3BydWRlbmNpbyIsImEiOiJjbGJibWoxYmcxZnV3M29tcmVnbzMzbzMxIn0.4O0UofCM_KbVsb_EZM-i6g")) %>%
+  add_arc(origin = "centroid2",
+          destination = "centroid1",
+          stroke_width = "weight",
+          update_view = FALSE) 
+
 ```
-
-```{r year_2018}
-pr_counties_flows_2018 <-
-  purrr::map_dfr(
-    pr_counties$COUNTYFP,
-    ~ get_flows(
-      geography = "county",
-      state = "PR",
-      county = .x,
-      year = 2018
-    )
-  )
-```
-
-```{r year_2019}
-pr_counties_flows_2019 <-
-  purrr::map_dfr(
-    pr_counties$COUNTYFP,
-    ~ get_flows(
-      geography = "county",
-      state = "PR",
-      county = .x,
-      year = 2019
-    )
-  )
-```
-
-
