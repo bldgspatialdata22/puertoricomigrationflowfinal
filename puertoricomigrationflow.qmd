@@ -77,8 +77,9 @@ usethis::use_git_remote("origin", url = NULL, overwrite = TRUE)
 git_sitrep()
 ```
 
-
-git commit --no verify
+```{r}
+use_git(message = "no verify")
+```
 
 ```{r}
 use_github(organisation = "bldgspatialdata22")
