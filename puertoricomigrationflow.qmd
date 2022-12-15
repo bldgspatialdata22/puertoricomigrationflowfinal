@@ -94,7 +94,7 @@ use_cc0_license()
 ```{r}
 options(tigris_class = "sf")
 options(tigris_use_cache = TRUE)
-census_api_key("3efcfb0ddc4c895edaac8221c73a40ca59dd392c")
+census_api_key("CENSUS KEY")
 "install = TRUE"
 ```
 
@@ -216,7 +216,7 @@ mayaguez_inflow <-
 mayaguez_inflow %>%
   slice_max(estimate, n = 30) %>%
   mutate(weight = estimate / 500) %>%
-  mapdeck(token = mapboxapi::get_mb_access_token("pk.eyJ1Ijoid3BydWRlbmNpbyIsImEiOiJjbGJibWoxYmcxZnV3M29tcmVnbzMzbzMxIn0.4O0UofCM_KbVsb_EZM-i6g")) %>%
+  mapdeck(token = mapboxapi::get_mb_access_token("MAPBOX TOKEN")) %>%
   add_arc(origin = "centroid2",
           destination = "centroid1",
           stroke_width = "weight",
@@ -231,7 +231,7 @@ sanjuan_mayaguez_inflow <-
 sanjuan_mayaguez_inflow %>%
   slice_max(estimate, n = 30) %>%
   mutate(weight = estimate / 500) %>%
-  mapdeck(token = mapboxapi::get_mb_access_token("pk.eyJ1Ijoid3BydWRlbmNpbyIsImEiOiJjbGJibWoxYmcxZnV3M29tcmVnbzMzbzMxIn0.4O0UofCM_KbVsb_EZM-i6g")) %>%
+  mapdeck(token = mapboxapi::get_mb_access_token("MAPBOX TOKEN")) %>%
   add_arc(origin = "centroid2",
           destination = "centroid1",
           stroke_width = "weight",
