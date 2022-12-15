@@ -1,5 +1,5 @@
 ---
-title: "Puerto Rico Migration Flows: Project Proposal"
+title: "Puerto Rico Migration Flows"
 author: "Wendy Prudencio"
 ---
 
@@ -7,51 +7,55 @@ author: "Wendy Prudencio"
 
 Puerto Rico is a territorial island belonging to the United States and is home to an estimated 3.2 million people (Census, n.d). The archipelago is located in the Caribbean Sea and is susceptible to hurricanes, landslides, mudslides, earthquakes, and other natural hazards. In the last decade, Puerto Rico has experienced three major hurricanes, Irma, and Maria in 2017 and Fiona in 2022. Hurricanes Irma and Maria, category 4 and 5, respectively, destroyed critical infrastructure, hospitals, and damaged thousands of homes displacing thousands of Puerto Ricans.
 
-After natural disasters, it is difficult to track individual movements from one location to another and even harder if the individuals move to a different state or country. For instance, Puerto Ricans have the ability to move from Puerto Rico to the continental U.S. because they are U.S. citizens and are not bound by international restrictions. Puerto Ricans have a unique status that makes it an interesting group to research due to their history, location, and disaster risk.
-
 The primary goal of this project is research, compare, analyze, and document migration flows from Puerto Rico to the continental U.S. pre-and-post hurricanes Irma and Maria and possibly Fiona, if data is available.
 
 # Data and approach
 
-The data to support the goal of this project that I currently have includes data from the American Community Survey on population estimates from 2015-2019. I have data from the National Flood Insurance Program (NFIP) that received flood claims after the hurricanes in 2017. Additionally, I have found Puerto Rico on OpenStreetMap and a layer in ArcGIS that points to hospitals that were damaged during the hurricanes. Lastly, I can use Mapbox to obtain information such as hospital distance for a property x miles away.
+The data to support the goal of this project that I currently have includes data from the Census Bureau's Population Estimate Program (PEP) from 2015-2019. The Census Bureau releases data on population and housing on a “flow basis” to estimate changes from the decennial (10-year) census to the present year (Census, 2022). The PEP estimates are collected at the country, state, city, and municipality levels for all of the U.S. (Census, 2022). This data is used by the federal government to allocate federal funds throughout the country. 
 
-I will probably have to combine some of the data because the data is in different formats. My approach is to explore the data and determine how to best analyze the data using what I have found thus far and be able to combine methodology to produce a visual.
+In addition, Mapbox will be used as a visual tool to show migration flows from Puerto Rico to the continental U.S. Mapbox was designed to customize maps and provide tools for web-based applications (mapbox, n.d.)
+
+My approach is to explore the data and determine how to best analyze the data using what I have found thus far and be able to combine methodology to produce a visual.
 
 ## Questions
 
-The questions I intend to answer are: 1. Which year had the most migration from Puerto Rico to the continental U.S.? 2. What continental U.S. state received the most influx of Puerto Rican individuals? 3. Can I use flooding claims information to inform migration flow?
+The questions I intend to answer are: 1. Which year had the most migration from Puerto Rico to the continental U.S.? 2. What continental U.S. state received the most influx of Puerto Rican individuals? 
 
 ## Description of data
 
-1.  The first dataset is from the American Community Survey with estimated population data for municipalities and census tracts. The ACS data is from 2015-2019, but I also have the census tracts from 2010-2018. I could use one or the other dataset to compare the number of individuals living on the island pre-and-post Hurricanes Irma and Maria. The ACS data is obtained through the U.S. Census Bureau to obtain population data and housing information and has a structure on the variables (Census, n.d.).
+1.    The first dataset is from the Census Bureau’s with estimated population data for municipalities and census tracts. PEP data is obtained through the U.S. Census Bureau and has variables of moved-in and moved-out of different areas worldwide (Census, n.d.). The PEP data used for this project is from 2015-2019. The dataset will be used to compare the number of individuals living on the island pre-and-post Hurricanes Irma and Maria. The dataset includes the variables, GEOID1 is the Puerto Rico census tract code, GEOID2 is a geographic code, location, estimates, and margin of error. 
 
-2.  The NFIP claims data was obtained from the Federal Emergency Management Agency website that has been collected through OpenFEMA that provides datasets to the public (FEMA, 2022). The purpose of the NFIP claims is to determine who had flooding insurance, reimbursement for damages, census tract, and elevation (FEMA, 2022). NFIP claims data does not have a standard or schema, but is organized by state. I have to clean data that is only relevant to Puerto Rico for 2017-2018.
-
-3.  The last dataset was obtained from ArcGIS that includes data of 43 hospitals that were impacted by the hurricanes in 2017. The dataset has hospital names, addresses, coordinates, county FIPS codes, whether the hospital is public or private, and population. The purpose of the data was to support disaster recovery and only provide basic information.
-
-I do not think there are any ethical issues around the collection of any of the 3 datasets and I do not anticipate any ethical issues from the work I plan on doing with the data. Each dataset contains different types of data for 3 different purposes, but I think that combining the data from each set will support the research questions.
+I do not think there are any ethical issues around the collection of any of the datasets and I do not anticipate any ethical issues from the work I plan on doing with the data. 
 
 ## Preliminary Analysis
 
-I started my exploratory analysis by using the R packages tidycensus, tidyverse, and tigris in RStudio to use ACS data to explore some population estimates and characteristics such as age and gender. Using the walkerke/tidycensus vignette from Github, I was able to start the exploratory migration flows in Puerto Rico using `get_flows()` function that provides movedin, movedout, and movednet variables with a margin of error for each column. The `get_flows()` function only uses the geography as county, county subdivision, or metropolitan statistical area, unfortunately it does not use state. Puerto Rico has 78 municipalities/ counties; therefore, I will start comparing the municipalities in 2015.
+I started my exploratory analysis by using the R packages tidycensus, tidyverse, and tigris in RStudio to use PEP data to explore some population estimates and characteristics such as age and gender. Using the walkerke/tidycensus vignette from Github, I was able to start the exploratory migration flows in Puerto Rico using `get_flows()` function that provides movedin, movedout, and movednet variables with a margin of error for each column. The `get_flows()` function only uses the geography as county, county subdivision, or metropolitan statistical area, unfortunately it does not use state. Puerto Rico has 78 municipalities/ counties; therefore, I will start comparing the municipalities in 2015.
+
+## Formal Analysis
+
+A data frame was created using the `purrr::map_dfr()` function with PEP data for every year between 2015 and 2019. The first question: which year had the most migration from Puerto Rico to the continental U.S.? To answer this question, data was filtered to exclude "Africa", "Asia", "Central America", "Caribbean", "Europe", "South America", and "Puerto Rico". These variables were filtered out because they are non-U.S. locations and will skew the results. Puerto Rico had the highest migration flow to the continental U.S. in 2018 with 215,457 people moving out. To answer the second question: what continental U.S. state received the most influx of Puerto Rican individuals? Zavala County, Texas. 
+
+The ‘mapdeck’ function was used to create a visualization of the out flow migration from Puerto Rico to the continental U.S. I used San Juan, the capital of Puerto Rico and Mayagüez, a major city on the west coast of Puerto Rico to visualize the migration patterns. 
+
+## Discussion
+
+Patterns of migration flows are difficult to trace, but with data such as the PEP allows researchers to attempt to estimate when and where did people move. This project was able to provide the foundation to migration flows in Puerto Rico after Hurricanes Irma and Maria in 2017.
 
 # References
 
-American Community Survey. (n.d.). American Community Survey Tables: 2015--2019 (5-Year Estimates). Retrieved from https://www.socialexplorer.com/data/ACS2019_5yr/metadata/?ds=ACS19_5yr Federal
-
-Emergency Management Agency. (2022). OpenFEMA Data Sets. Retrieved from https://www.fema.gov/about/openfema/data-sets#nfip
+Mapbox. (n.d.). Our vision. Retrieved from https://www.mapbox.com/about/company/
 
 U.S. Census Bureau. (n.d.). Quickfacts Puerto Rico. Retrieved from https://www.census.gov/quickfacts/PR
 
+U. S. Census Bureau. (2022). Population and Housing Unit Estimates Tables. Retrieved from https://www.census.gov/programs-surveys/popest.html
+
 # Links
 
-ACS data is provided by: (https://www.socialexplorer.com/data/ACS2019_5yr/metadata/?ds=ACS19_5yr)
+PEP data is provided by: (https://www.census.gov/programs-surveys/popest.html)
 
 NFIP data is provided by: (https://www.fema.gov/about/openfema/data-sets#nfip)
 
-OpenStreetMap: (https://www.openstreetmap.org/export#map=10/18.1700/-66.5099)
-
-ArcGIS map: (https://www.arcgis.com/home/item.html?id=2e060b7232da44e2adf112795f1495b9)
+Mapbox: (https://www.mapbox.com)
 
 ```{r setup}
 #| echo: false
@@ -73,9 +77,8 @@ usethis::use_git_remote("origin", url = NULL, overwrite = TRUE)
 git_sitrep()
 ```
 
-```{r}
-use_git(message = "Create new project")
-```
+
+git commit --no verify
 
 ```{r}
 use_github(organisation = "bldgspatialdata22")
@@ -144,7 +147,6 @@ ggplot(pr_movedout_summary, aes(x=year, y=total_movedout)) + geom_point() +
   ylab("Population Totals") +
   ggtitle("Total Migration Flow in Puerto Rico by Year in Points") +
   ggeasy::easy_center_title()
-
 ```
 
 ```{r}
@@ -160,6 +162,8 @@ pr_movedout_state
 
 max(pr_movedout_state$FULL2_NAME)
 
+max(pr_movedout_state$total_movedout)
+
 pr_movedout_state %>% 
   ggplot() +
   geom_col(aes(as.factor(FULL2_NAME), total_movedout)) +
@@ -169,7 +173,6 @@ pr_movedout_state %>%
   ylab("Population Totals") +
   ggtitle("Total Migration Flow from Puerto Rico to Other Places") +
   ggeasy::easy_center_title()
-  
 ```
 
 ```{r}
@@ -232,5 +235,4 @@ sanjuan_mayaguez_inflow %>%
           destination = "centroid1",
           stroke_width = "weight",
           update_view = FALSE) 
-
 ```
