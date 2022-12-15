@@ -11,7 +11,7 @@ The primary goal of this project is research, compare, analyze, and document mig
 
 # Data and approach
 
-The data to support the goal of this project that I currently have includes data from the Census Bureau's Population Estimate Program (PEP) from 2015-2019. The Census Bureau releases data on population and housing on a “flow basis” to estimate changes from the decennial (10-year) census to the present year (Census, 2022). The PEP estimates are collected at the country, state, city, and municipality levels for all of the U.S. (Census, 2022). This data is used by the federal government to allocate federal funds throughout the country. 
+The data to support the goal of this project that I currently have includes data from the Census Bureau's Population Estimate Program (PEP) from 2015-2019. The Census Bureau releases data on population and housing on a "flow basis" to estimate changes from the decennial (10-year) census to the present year (Census, 2022). The PEP estimates are collected at the country, state, city, and municipality levels for all of the U.S. (Census, 2022). This data is used by the federal government to allocate federal funds throughout the country.
 
 In addition, Mapbox will be used as a visual tool to show migration flows from Puerto Rico to the continental U.S. Mapbox was designed to customize maps and provide tools for web-based applications (mapbox, n.d.)
 
@@ -19,13 +19,13 @@ My approach is to explore the data and determine how to best analyze the data us
 
 ## Questions
 
-The questions I intend to answer are: 1. Which year had the most migration from Puerto Rico to the continental U.S.? 2. What continental U.S. state received the most influx of Puerto Rican individuals? 
+The questions I intend to answer are: 1. Which year had the most migration from Puerto Rico to the continental U.S.? 2. What continental U.S. state received the most influx of Puerto Rican individuals?
 
 ## Description of data
 
-1.    The first dataset is from the Census Bureau’s with estimated population data for municipalities and census tracts. PEP data is obtained through the U.S. Census Bureau and has variables of moved-in and moved-out of different areas worldwide (Census, n.d.). The PEP data used for this project is from 2015-2019. The dataset will be used to compare the number of individuals living on the island pre-and-post Hurricanes Irma and Maria. The dataset includes the variables, GEOID1 is the Puerto Rico census tract code, GEOID2 is a geographic code, location, estimates, and margin of error. 
+1.  The first dataset is from the Census Bureau's with estimated population data for municipalities and census tracts. PEP data is obtained through the U.S. Census Bureau and has variables of moved-in and moved-out of different areas worldwide (Census, n.d.). The PEP data used for this project is from 2015-2019. The dataset will be used to compare the number of individuals living on the island pre-and-post Hurricanes Irma and Maria. The dataset includes the variables, GEOID1 is the Puerto Rico census tract code, GEOID2 is a geographic code, location, estimates, and margin of error.
 
-I do not think there are any ethical issues around the collection of any of the datasets and I do not anticipate any ethical issues from the work I plan on doing with the data. 
+I do not think there are any ethical issues around the collection of any of the datasets and I do not anticipate any ethical issues from the work I plan on doing with the data.
 
 ## Preliminary Analysis
 
@@ -33,9 +33,9 @@ I started my exploratory analysis by using the R packages tidycensus, tidyverse,
 
 ## Formal Analysis
 
-A data frame was created using the `purrr::map_dfr()` function with PEP data for every year between 2015 and 2019. The first question: which year had the most migration from Puerto Rico to the continental U.S.? To answer this question, data was filtered to exclude "Africa", "Asia", "Central America", "Caribbean", "Europe", "South America", and "Puerto Rico". These variables were filtered out because they are non-U.S. locations and will skew the results. Puerto Rico had the highest migration flow to the continental U.S. in 2018 with 215,457 people moving out. To answer the second question: what continental U.S. state received the most influx of Puerto Rican individuals? Zavala County, Texas. 
+A data frame was created using the `purrr::map_dfr()` function with PEP data for every year between 2015 and 2019. The first question: which year had the most migration from Puerto Rico to the continental U.S.? To answer this question, data was filtered to exclude "Africa", "Asia", "Central America", "Caribbean", "Europe", "South America", and "Puerto Rico". These variables were filtered out because they are non-U.S. locations and will skew the results. Puerto Rico had the highest migration flow to the continental U.S. in 2018 with 215,457 people moving out. To answer the second question: what continental U.S. state received the most influx of Puerto Rican individuals? Zavala County, Texas.
 
-The ‘mapdeck’ function was used to create a visualization of the out flow migration from Puerto Rico to the continental U.S. I used San Juan, the capital of Puerto Rico and Mayagüez, a major city on the west coast of Puerto Rico to visualize the migration patterns. 
+The 'mapdeck' function was used to create a visualization of the out flow migration from Puerto Rico to the continental U.S. I used San Juan, the capital of Puerto Rico and Mayagüez, a major city on the west coast of Puerto Rico to visualize the migration patterns.
 
 ## Discussion
 
