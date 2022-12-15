@@ -2,6 +2,13 @@
 output: github_document
 ---
 
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
 # Puerto Rico Migration Flow 
 
 This repository contains processes, data, analysis, and summary of Puerto Rico
@@ -43,16 +50,16 @@ options(tigris_use_cache = TRUE)
 ```
 
 - Install Census Data API key
-```{r eval=FALSE}
+```{r, eval=FALSE}
 options(tigris_class = "sf")
 options(tigris_use_cache = TRUE)
-census_api_key("CENSUS KEY")
+census_api_key("CENSUS API KEY GOES HERE")
 "install = TRUE"
 ```
 
 - Create a data frame for Puerto Rico using _tigris_ for state _PR_ for 2015, 2016, 2017, 2018, and 2019. Save as an rds file.
 
-```{r eval=FALSE}
+```{r, eval=FALSE}
 pr_counties <- tigris::counties(state = "PR", cb = TRUE)
 
 pr_counties_flows_2015 <-
@@ -69,13 +76,13 @@ pr_counties_flows_2015 <-
 pr_counties_flows_2015$year <- 2015
 ```
 
-- Read rds file, create new variable that totals all individuals that moved from Puerto Rico to the continental U.S. by filtering out the areas that are not the U.S.
+- Read rds file, create new variable that totals all individuals that moved from Puerto Rico to the continential U.S. by filtering out the areas that are not the U.S.
 
-```{r eval=FALSE}
+```{r, eval=FALSE}
 pr_movedout_summary <-
 pr_counties_flows_2015_2019 %>%
   filter(!(FULL2_NAME %in% c("Africa", "Asia", "Central America", 
-  "Caribbean", "Europe", "South America", "Puerto Rico")), variable == "MOVEDOUT") %>% 
+  "Caribbean", "Europe", "South America", "Puerto Rico" )), variable == "MOVEDOUT") %>% 
   group_by(year) %>%
   summarise(
     total_movedout = sum(estimate, na.rm = TRUE)
@@ -86,7 +93,7 @@ pr_movedout_summary
 - Use Mapbox API token and load _mapdeck_ to library. 
 - Use _get_flows_ to create a map that displaces the migration from Puerto Rico to the continental U.S.
 
-```{r eval=FALSE}
+```{r, eval=FALSE}
 library(mapdeck)
 
 sanjuan_inflow <-
@@ -112,6 +119,7 @@ sanjuan_inflow %>%
           update_view = FALSE) 
 ```
 
+
 ## Authors
 
 Wendy Prudencio
@@ -124,5 +132,4 @@ This project is licensed under the [Creative Commons 1.0] License - see the LICE
 ## Acknowledgments
 
 Guidance and trouble-shooting
-[Professor Pousson](https://github.com/elipousson)
-
+[Professor Pousson]
