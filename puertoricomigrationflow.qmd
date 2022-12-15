@@ -117,7 +117,7 @@ pr_age_hisp
 
 ## Migration flow per county/ municpality for 2015-2019
 
-````{r}
+```{r}
 library(readr)
 
 read_rds("pr_counties_flows_2015_2019.rds", refhook = NULL)
@@ -127,7 +127,7 @@ read_rds("pr_counties_flows_2015_2019.rds", refhook = NULL)
 pr_movedout_summary <-
 pr_counties_flows_2015_2019 %>%
   filter(!(FULL2_NAME %in% c("Africa", "Asia", "Central America", 
-  "Caribbean", "Europe", "South America", "Puerto Rico" )), variable == "MOVEDOUT") %>% 
+  "Caribbean", "Europe", "South America", "Puerto Rico")), variable == "MOVEDOUT") %>% 
   group_by(year) %>%
   summarise(
     total_movedout = sum(estimate, na.rm = TRUE)
