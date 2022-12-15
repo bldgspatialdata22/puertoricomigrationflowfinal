@@ -4,7 +4,7 @@ output: github_document
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,g
+  collapse = TRUE,
   comment = "#>"
 )
 ```
